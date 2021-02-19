@@ -8,6 +8,12 @@ pipeline {
         buildDiscarder(logRotator(artifactNumToKeepStr: '20'))
     }
     stages {
+        stage('Checkout') {
+            steps {
+                scmSkip(deleteBuild: true, skipPattern:'.*\\[ci skip\\].*')
+            }
+        }
+        
         stage ('Build') {
             steps {
                 sh 'git submodule update --init --recursive'
